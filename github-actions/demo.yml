@@ -1,0 +1,41 @@
+name: Separate build and test
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm ci
+      - run: npm run build
+      # 중속성 공유를 위한 아티팩트 사용
+      - uses: actions/upload-artifact@v3
+        with:
+          name: webpack artifacts
+          # 경로
+          path: public/
+
+  test:
+    # 중속성 추가
+    needs: build
+    runs-on: ubuntu-latest
+    # 매트릭스 빌드
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-2016]
+        node-version: [12.x, 14.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm ci
+      - run: npm test -- --coverage
+      # 중속성 공유를 위한 아티팩트 사용
+      - uses: actions/upload-artifact@v3
+        with:
+          name: webpack artifacts
+          # 경로
+          path: public/
+# reference
+# https://www.daleseo.com/github-actions-artifacts/
+# https://github.com/DaleSchool/github-actions-artifacts/blob/main/.github/workflows/artifacts1.yml

@@ -1,6 +1,9 @@
 name: GitHub Actions Demo
+
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
 on: [push]
+
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -16,3 +19,19 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+# github.event_name = git event name
+# runner.os = os 환경
+# github.ref = refs/heads/main ??
+# 정의: 현재 워크플로 실행과 관련된 **Git 참조(Reference)**를 나타냅니다.
+# 주로 사용되는 값:
+# 브랜치일 경우: refs/heads/<branch-name>
+# 태그일 경우: refs/tags/<tag-name>
+# PR일 경우: refs/pull/<pr-number>/merge
+
+# github.repository = sunhoh/TIL repo명
+# job.status = event status
+# github.workspace = /home/runner/work/TIL/TIL
+# 현재 워크플로의 작업 디렉토리 경로를 나타냅니다.
+
+# github actions env변수 저장
+# secrets.{...}
